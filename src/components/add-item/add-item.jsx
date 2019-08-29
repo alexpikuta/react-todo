@@ -2,17 +2,37 @@ import React, { Component } from 'react'
 import './add-item.sass'
 
 export default class AddItem extends Component {
+  state = {
+    label: ''
+  }
+  onLabelChange = (event) => {
+    this.setState({
+      label: event.target.value
+    })
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault()
+    this.props.onItemAdded(this.state.label)
+    this.setState({
+      label: ''
+    })
+  }
   render() {
     return (
-      <div className="add-item d-flex">
+      <form className="add-item d-flex"
+        onSubmit={this.onSubmit}>
         <input type="text"
-          className="add-item__input"
-          placeholder="new 2do" />
-        <button type="button"
+          className="form-control add-item__input"
+          onChange={this.onLabelChange}
+          placeholder="new 2do"
+          value={this.state.label}
+        />
+        <button
           className="btn btn-success"
-          onClick={() => this.props.onItemAdded('Hello world')}
+          type="submit"
         >Add</button>
-      </div>
+      </form>
     )
   }
 }
